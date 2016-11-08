@@ -20,8 +20,9 @@ are not already installed.
 from setuptools import setup
 
 packages = [
-  'apiclient',
-  'uritemplate',
+    'apiclient',
+    'oauth2client'
+    'uritemplate',
 ]
 
 install_requires = [
