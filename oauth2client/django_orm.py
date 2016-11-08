@@ -23,13 +23,17 @@ __author__ = 'jcgregorio@google.com (Joe Gregorio)'
 import oauth2client
 import base64
 import pickle
+import django
+
+IS_DJANGO_1_4 = django.get_version().startswith('1.4')
 
 from django.db import models
 from oauth2client.client import Storage as BaseStorage
 
 class CredentialsField(models.Field):
 
-  __metaclass__ = models.SubfieldBase
+  if IS_DJANGO_1_4:
+      __metaclass__ = models.SubfieldBase
 
   def __init__(self, *args, **kwargs):
     if 'null' not in kwargs:
@@ -53,8 +57,8 @@ class CredentialsField(models.Field):
 
 
 class FlowField(models.Field):
-
-  __metaclass__ = models.SubfieldBase
+  if IS_DJANGO_1_4:
+      __metaclass__ = models.SubfieldBase
 
   def __init__(self, *args, **kwargs):
     if 'null' not in kwargs:
