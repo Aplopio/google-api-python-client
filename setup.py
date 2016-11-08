@@ -21,7 +21,7 @@ from setuptools import setup
 
 packages = [
     'apiclient',
-    'oauth2client'
+    'oauth2client',
     'uritemplate',
 ]
 
