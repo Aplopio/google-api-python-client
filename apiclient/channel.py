@@ -55,7 +55,11 @@ Example of unsubscribing.
 
   service.channels().stop(channel.body())
 """
+from __future__ import division
 
+from builtins import str
+from past.utils import old_div
+from builtins import object
 import datetime
 import uuid
 
@@ -88,7 +92,7 @@ X_GOOG_RESOURCE_ID    = 'X-GOOG-RESOURCE-ID'
 
 def _upper_header_keys(headers):
   new_headers = {}
-  for k, v in headers.iteritems():
+  for k, v in headers.items():
     new_headers[k.upper()] = v
   return new_headers
 
@@ -218,7 +222,7 @@ class Channel(object):
     Args:
       resp: dict, The response from a watch() method.
     """
-    for json_name, param_name in CHANNEL_PARAMS.iteritems():
+    for json_name, param_name in CHANNEL_PARAMS.items():
       value = resp.get(json_name)
       if value is not None:
         setattr(self, param_name, value)
@@ -274,7 +278,7 @@ def new_webhook_channel(url, token=None, expiration=None, params=None):
     expiration_ms = 0
     if expiration:
       delta = expiration - EPOCH
-      expiration_ms = delta.microseconds/1000 + (
+      expiration_ms = old_div(delta.microseconds,1000) + (
           delta.seconds + delta.days*24*3600)*1000
       if expiration_ms < 0:
         expiration_ms = 0
