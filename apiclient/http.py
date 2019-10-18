@@ -704,8 +704,8 @@ class HttpRequest(object):
       self.headers['content-type'] = 'application/x-www-form-urlencoded'
       parsed = urllib.parse.urlparse(self.uri)
       self.uri = urllib.parse.urlunparse(
-          (parsed.scheme, parsed.netloc, parsed.path, parsed.params, None,
-           None)
+          (parsed.scheme, parsed.netloc, parsed.path, parsed.params, '',
+           '')
           )
       self.body = parsed.query
       self.headers['content-length'] = str(len(self.body))
@@ -1088,7 +1088,7 @@ class BatchHttpRequest(object):
     # Construct status line
     parsed = urllib.parse.urlparse(request.uri)
     request_line = urllib.parse.urlunparse(
-        (None, None, parsed.path, parsed.params, parsed.query, None)
+        ('', '', parsed.path, parsed.params, parsed.query, '')
         )
     status_line = request.method + ' ' + request_line + ' HTTP/1.1\n'
     major, minor = request.headers.get('content-type', 'application/json').split('/')
