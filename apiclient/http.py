@@ -1104,7 +1104,7 @@ class BatchHttpRequest(object):
 
     for key, value in headers.items():
       msg[key] = value
-    msg['Host'] = unicode(parsed.netloc, 'utf-8')
+    msg['Host'] = parsed.netloc
     msg.set_unixfrom(None)
 
     if request.body is not None:
