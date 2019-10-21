@@ -27,7 +27,7 @@ from builtins import range
 from builtins import object
 __author__ = 'jcgregorio@google.com (Joe Gregorio)'
 
-import io
+from io import BytesIO as StringIO
 import base64
 import copy
 import gzip
@@ -1112,7 +1112,7 @@ class BatchHttpRequest(object):
       msg['content-length'] = str(len(request.body))
 
     # Serialize the mime message.
-    fp = io.StringIO()
+    fp = StringIO()
     # maxheaderlen=0 means don't line wrap headers.
     g = Generator(fp, maxheaderlen=0)
     g.flatten(msg, unixfrom=False)
