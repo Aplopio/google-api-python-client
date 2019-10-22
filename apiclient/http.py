@@ -27,7 +27,11 @@ from builtins import range
 from builtins import object
 __author__ = 'jcgregorio@google.com (Joe Gregorio)'
 
-import six
+# [py2to3]TODO: remove StringIO.StringIO after upgrading to Py3
+try:
+    from StringIO import StringIO  # for Python 2
+except ImportError:
+    from io import StringIO  # for Python 3
 import base64
 import copy
 import gzip
@@ -470,7 +474,7 @@ class MediaInMemoryUpload(MediaIoBaseUpload):
     resumable: bool, True if this is a resumable upload. False means upload
       in a single request.
     """
-    fd = io.StringIO(body)
+    fd = StringIO(body)
     super(MediaInMemoryUpload, self).__init__(fd, mimetype, chunksize=chunksize,
                                               resumable=resumable)
 
@@ -1112,9 +1116,7 @@ class BatchHttpRequest(object):
       msg['content-length'] = str(len(request.body))
 
     # Serialize the mime message.
-    # TODO: Use io.StringIO after we update it to support only Py3
-    # due to https://stackoverflow.com/a/53733162/6396021
-    fp = six.StringIO()
+    fp = StringIO()
     # maxheaderlen=0 means don't line wrap headers.
     g = Generator(fp, maxheaderlen=0)
     g.flatten(msg, unixfrom=False)
