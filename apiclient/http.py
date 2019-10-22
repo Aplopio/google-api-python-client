@@ -1112,6 +1112,8 @@ class BatchHttpRequest(object):
       msg['content-length'] = str(len(request.body))
 
     # Serialize the mime message.
+    # TODO: Use io.StringIO after we update it to support only Py3
+    # due to https://stackoverflow.com/a/53733162/6396021
     fp = six.StringIO()
     # maxheaderlen=0 means don't line wrap headers.
     g = Generator(fp, maxheaderlen=0)
