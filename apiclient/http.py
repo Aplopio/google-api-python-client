@@ -27,7 +27,11 @@ from builtins import range
 from builtins import object
 __author__ = 'jcgregorio@google.com (Joe Gregorio)'
 
-import io
+# [py2to3]TODO: remove StringIO.StringIO after upgrading to Py3
+try:
+    from StringIO import StringIO  # for Python 2
+except ImportError:
+    from io import StringIO  # for Python 3
 import base64
 import copy
 import gzip
@@ -470,7 +474,7 @@ class MediaInMemoryUpload(MediaIoBaseUpload):
     resumable: bool, True if this is a resumable upload. False means upload
       in a single request.
     """
-    fd = io.StringIO(body)
+    fd = StringIO(body)
     super(MediaInMemoryUpload, self).__init__(fd, mimetype, chunksize=chunksize,
                                               resumable=resumable)
 
@@ -704,9 +708,8 @@ class HttpRequest(object):
       self.headers['content-type'] = 'application/x-www-form-urlencoded'
       parsed = urllib.parse.urlparse(self.uri)
       self.uri = urllib.parse.urlunparse(
-          (parsed.scheme, parsed.netloc, parsed.path, parsed.params, '',
-           '')
-          )
+        (parsed.scheme, parsed.netloc, parsed.path, parsed.params, u'', u'')
+      )
       self.body = parsed.query
       self.headers['content-length'] = str(len(self.body))
 
@@ -1088,8 +1091,8 @@ class BatchHttpRequest(object):
     # Construct status line
     parsed = urllib.parse.urlparse(request.uri)
     request_line = urllib.parse.urlunparse(
-        ('', '', parsed.path, parsed.params, parsed.query, '')
-        )
+      (u'', u'', parsed.path, parsed.params, parsed.query, u'')
+    )
     status_line = request.method + ' ' + request_line + ' HTTP/1.1\n'
     major, minor = request.headers.get('content-type', 'application/json').split('/')
     msg = MIMENonMultipart(major, minor)
@@ -1113,7 +1116,7 @@ class BatchHttpRequest(object):
       msg['content-length'] = str(len(request.body))
 
     # Serialize the mime message.
-    fp = io.StringIO()
+    fp = StringIO()
     # maxheaderlen=0 means don't line wrap headers.
     g = Generator(fp, maxheaderlen=0)
     g.flatten(msg, unixfrom=False)
