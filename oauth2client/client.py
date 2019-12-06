@@ -30,11 +30,9 @@ import copy
 import datetime
 import httplib2
 import logging
-import os
 import sys
 import time
-import urllib.request, urllib.parse, urllib.error
-
+from future.moves import urllib
 from oauth2client import GOOGLE_AUTH_URI
 from oauth2client import GOOGLE_REVOKE_URI
 from oauth2client import GOOGLE_TOKEN_URI
