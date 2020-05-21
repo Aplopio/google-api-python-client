@@ -1126,7 +1126,7 @@ class BatchHttpRequest(object):
     if request.body is None:
       body = body[:-2]
 
-    return status_line.encode('utf-8') + body
+    return status_line + body
 
   def _deserialize_response(self, payload):
     """Convert string into httplib2 response and content.
@@ -1254,7 +1254,7 @@ class BatchHttpRequest(object):
 
     # Prepend with a content-type header so FeedParser can handle it.
     header = 'content-type: %s\r\n\r\n' % resp['content-type']
-    for_parser = header + content
+    for_parser = header + content.decode('utf-8')
 
     parser = FeedParser()
     parser.feed(for_parser)
