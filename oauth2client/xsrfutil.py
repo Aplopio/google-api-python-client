@@ -37,7 +37,7 @@ from oauth2client import util
 
 
 # Delimiter character
-DELIMITER = ':'
+DELIMITER = b':'
 
 # 1 hour in seconds
 DEFAULT_TIMEOUT_SECS = 1*60*60
