@@ -68,7 +68,7 @@ def generate_token(key, user_id, action_id="", when=None):
 
   token = base64.urlsafe_b64encode(digest + DELIMITER + when)
 
-  return token
+  return token.decode('utf-8')
 
 
 @util.positional(3)
@@ -110,7 +110,7 @@ def validate_token(key, token, user_id, action_id="", current_time=None):
 
   # Perform constant time comparison to avoid timing attacks
   different = 0
-  for x, y in zip(bytearray(token, 'utf-8'), bytearray(expected_token, 'utf-8')):
+  for x, y in zip(token, expected_token):
     different |= ord(x) ^ ord(y)
   if different:
     return False
