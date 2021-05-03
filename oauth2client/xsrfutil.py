@@ -92,7 +92,7 @@ def validate_token(key, token, user_id, action_id="", current_time=None):
   if not token:
     return False
   try:
-    decoded = base64.urlsafe_b64decode(str(token))
+    decoded = base64.urlsafe_b64decode(token)
     token_time = int(decoded.split(DELIMITER)[-1])
   except (TypeError, ValueError):
     return False
@@ -110,7 +110,7 @@ def validate_token(key, token, user_id, action_id="", current_time=None):
 
   # Perform constant time comparison to avoid timing attacks
   different = 0
-  for x, y in zip(bytearray(token, 'utf-8'), bytearray(expected_token, 'utf-8')):
+  for x, y in zip(token, expected_token.decode('utf-8')):
     different |= ord(x) ^ ord(y)
   if different:
     return False
