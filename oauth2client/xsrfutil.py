@@ -110,7 +110,7 @@ def validate_token(key, token, user_id, action_id="", current_time=None):
 
   # Perform constant time comparison to avoid timing attacks
   different = 0
-  for x, y in zip(token, expected_token.decode('utf-8')):
+  for x, y in zip(token.decode("utf-8"), expected_token.decode("utf-8")):
     different |= ord(x) ^ ord(y)
   if different:
     return False
