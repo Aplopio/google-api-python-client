@@ -265,7 +265,6 @@ class JsonModel(BaseModel):
     if type(content) is bytes:
       content = content.decode('utf-8')
     
-    content = content.decode('utf-8')
     body = simplejson.loads(content)
     if self._data_wrapper and isinstance(body, dict) and 'data' in body:
       body = body['data']
