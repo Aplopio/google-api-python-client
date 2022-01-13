@@ -48,14 +48,14 @@ class CredentialsField(models.Field):
       return None
     if isinstance(value, oauth2client.client.Credentials):
       return value
-    return pickle.loads(base64.b64decode(value))
+    return pickle.loads(base64.b64decode(value), encoding="latin-1")
 
   def from_db_value(self, value, *args, **kwargs):
     if value is None:
       return None
     if isinstance(value, oauth2client.client.Credentials):
       return value
-    return pickle.loads(base64.b64decode(value))
+    return pickle.loads(base64.b64decode(value), encoding="latin-1")
 
   def get_db_prep_value(self, value, connection, prepared=False):
     if value is None:
@@ -80,7 +80,7 @@ class FlowField(models.Field):
       return None
     if isinstance(value, oauth2client.client.Flow):
       return value
-    return pickle.loads(base64.b64decode(value))
+    return pickle.loads(base64.b64decode(value), encoding="latin-1")
 
   def get_db_prep_value(self, value, connection, prepared=False):
     if value is None:
