@@ -91,6 +91,10 @@ def validate_token(key, token, user_id, action_id="", current_time=None):
   """
   if not token:
     return False
+
+  if not isinstance(token, bytes):
+    token = token.encode("utf-8")
+
   try:
     decoded = base64.urlsafe_b64decode(token)
     token_time = int(decoded.split(DELIMITER)[-1])
